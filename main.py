@@ -1,6 +1,11 @@
+"""
+    Simple script that splits spotify data into chunks.
+    Can also be used to split json files that are an array.
+"""
 from sys import argv
 from json import load, dump
 from pathlib import Path
+from os import sep
 
 
 def halt():
@@ -38,7 +43,7 @@ def main():
         assert isinstance(data, list), "JSON file is invalid."
         assert split_num <= len(data), "Split number is bigger than the data."
 
-    print("Splitting file")
+    print(f"Splitting file into {len(range(0, len(data), split_num))}")
 
     file_num = 1
     parsed_path = Path(file)
@@ -48,7 +53,7 @@ def main():
         print(f"Split into {file_num} files")
 
         with open(
-            f"""{parsed_path.parent}/{parsed_path.stem}_split{file_num}{parsed_path.suffix}""",
+            f"""{parsed_path.parent}{sep}{parsed_path.stem}_split{file_num}{parsed_path.suffix}""",
             "w", encoding="utf-8"
             ) as f:
             dump(chunk, f, indent=4)
